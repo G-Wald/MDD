@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  showHeader: Boolean;
+  @Input() showHeader: Boolean;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.showHeader = false
@@ -17,10 +18,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       // Vérifiez si l'utilisateur est sur la page principale
-      const isMainPage = this.route.snapshot.firstChild?.routeConfig?.path === '';
+      //const isMainPage = this.route.snapshot.firstChild?.routeConfig?.path === '';
   
       // Mettez à jour l'état de l'affichage de l'en-tête
-      this.showHeader = !isMainPage;
+      //this.showHeader = !isMainPage;
     });
   }
 

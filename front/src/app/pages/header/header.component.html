@@ -1,3 +1,33 @@
 <header *ngIf="showHeader" class="header">
-    <img src="/assets/logo_p6.png" alt="logo" />
+        <div class="header-left">
+            <a routerLink="">
+                <img class="header-logo" src="/assets/logo_p6.png" alt="logo" />
+              </a>
+            
+      </div>
+      <div class="header-center">
+        
+      </div>
+      <div class="header-right">
+        <a routerLink="/articles"><h1>Articles</h1></a>
+        <a routerLink="/themes"><h1>Thèmes</h1></a>
+        <a routerLink="/profil">
+            <img class="header-logo-compte" src="/assets/la-personne.png" alt="logo" />
+        </a>
+        <!-- 
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/page-icon1">
+            <mat-icon>icon1_name</mat-icon>
+            <span>Titre 1</span>
+        </button>
+        <button mat-menu-item routerLink="/page-icon2">
+            <mat-icon>icon2_name</mat-icon>
+            <span>Titre 2</span>
+        </button>
+        </mat-menu>
+     -->
+      </div>
 </header>
