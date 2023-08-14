@@ -1,37 +1,51 @@
-CREATE TABLE Utilisateur (
+CREATE TABLE User (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `last_name` VARCHAR(40),
-    `first_name` VARCHAR(40),
+    `username` VARCHAR(40),
     `email` VARCHAR(100),
+    `password` VARCHAR(255),
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Themes (
+CREATE TABLE Theme (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `titre` VARCHAR(40),
+    `title` VARCHAR(40),
     `description` VARCHAR(2000)
 );
 
-CREATE TABLE Articles (
+CREATE TABLE Subscription (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `titre` VARCHAR(40),
-    `contenu` VARCHAR(2000),
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `ID_Utilisateur` INT,
+    `ID_User` INT,
     `ID_Theme` INT,
-    FOREIGN KEY (`ID_Utilisateur`) REFERENCES Utilisateur(`id`),
-    FOREIGN KEY (`ID_Theme`) REFERENCES Themes(`id`)
+    FOREIGN KEY (`ID_User`) REFERENCES User(`id`),
+    FOREIGN KEY (`ID_Theme`) REFERENCES Theme(`id`)
 );
 
-CREATE TABLE Commentaire (
+CREATE TABLE Article (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `title` VARCHAR(40),
+    `content` VARCHAR(2000),
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `ID_User` INT,
+    FOREIGN KEY (`ID_User`) REFERENCES User(`id`)
+);
+
+CREATE TABLE Comment (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `message` VARCHAR(2000),
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `ID_Article` INT,
-    `ID_Utilisateur` INT,
-    FOREIGN KEY (`ID_Article`) REFERENCES Articles(`id`),
-    FOREIGN KEY (`ID_Utilisateur`) REFERENCES Utilisateur(`id`)
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `ID_Article` INT,    
+    `ID_User` INT,
+    FOREIGN KEY (`ID_Article`) REFERENCES Article(`id`),
+    FOREIGN KEY (`ID_User`) REFERENCES User(`id`)
 );
 
+CREATE TABLE ThemeArticleRelation (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `ID_Article` INT,
+    `ID_Theme` INT,
+    FOREIGN KEY (`ID_Article`) REFERENCES Article(`id`),
+    FOREIGN KEY (`ID_Theme`) REFERENCES Theme(`id`)
+);

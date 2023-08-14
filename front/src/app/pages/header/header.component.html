@@ -1,4 +1,4 @@
-<header *ngIf="showHeader" class="header">
+<header  class="header">
         <div class="header-left">
             <a routerLink="">
                 <img class="header-logo" src="/assets/logo_p6.png" alt="logo" />
@@ -8,7 +8,7 @@
       <div class="header-center">
         
       </div>
-      <div class="header-right">
+      <div *ngIf="isRegistered" class="header-right">
         <a routerLink="/articles"><h1>Articles</h1></a>
         <a routerLink="/themes"><h1>Thèmes</h1></a>
         <a routerLink="/profil">

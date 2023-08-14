@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-selected-article',
@@ -10,13 +9,17 @@ import { ActivatedRoute } from '@angular/router';
 export class SelectedArticleComponent implements OnInit {
 
   private idArticle: string;
+  isRegistered: Boolean;
 
   constructor(private router :Router, private route: ActivatedRoute) {
     this.idArticle = "";
+    this.isRegistered = false;
    }
 
   ngOnInit(): void {
     this.idArticle = this.route.snapshot.params['id'];
+    this.isRegistered = true;
+
   }
 
 }

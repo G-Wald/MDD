@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-articles',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticlesComponent implements OnInit {
 
-  constructor() { }
+  isRegistered: Boolean;
 
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.isRegistered = false
+  }
   ngOnInit(): void {
+    //Appeler un service pour vérifier si l'utilisateur est log
+    this.isRegistered = true;
   }
 
 }

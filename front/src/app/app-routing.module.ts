@@ -9,6 +9,9 @@ import { ThemesComponent } from './pages/themes/themes.component';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { SelectedArticleComponent } from './pages/selected-article/selected-article.component';
 
+
+
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
@@ -24,6 +27,7 @@ const routes: Routes = [
     imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    
   ],
   exports: [RouterModule],
 })

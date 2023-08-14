@@ -9,10 +9,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() showHeader: Boolean;
+  @Input() isRegistered: Boolean;
 
   constructor(private router: Router, private route: ActivatedRoute) {
-    this.showHeader = false
+    this.isRegistered = false
   }
 
   ngOnInit() {

@@ -1,26 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm} from '@angular/forms';
-
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
+import { SessionService } from 'src/app/services/session.service';
+import { LoginRequest } from '../../interfaces/loginRequest.interface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+   
+  public hide = true;
+  public onError = false;
 
-  username!: string;
-  email!: string;
-  password!: string;
+  public form = this.fb.group({
+    usernameOrEmail: [
+      '',
+      [
+        Validators.required,
+      ]
+    ],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.min(3)
+      ]
+    ]
+  });
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private authService: AuthService,
+              private fb: FormBuilder,
+              private router: Router,
+              private sessionService: SessionService) {
   }
 
-
-  submitForm( form: NgForm){
-    console.log(form.value);
-    
+  public submitForm(): void {
+    const loginRequest = this.form.value as LoginRequest;
+    this.authService.login(loginRequest).subscribe({
+      next: (response: SessionInformation) => {
+        this.sessionService.logIn(response);
+        this.router.navigate(['/articles']);
+      },
+      error: error => this.onError = true,
+    });
   }
+
 }
