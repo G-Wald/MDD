@@ -1,10 +1,15 @@
 <header  class="header">
-        <div class="header-left">
-            <a routerLink="">
-                <img class="header-logo" src="/assets/logo_p6.png" alt="logo" />
-              </a>
+            <div *ngIf="!isLogged" class="header-left">
+                <a routerLink= "">
+                    <img class="header-logo" src="/assets/logo_p6.png" alt="logo" />
+                  </a>
+            </div>
+            <div *ngIf="isLogged" class="header-left">
+                <a routerLink= "/articles">
+                    <img class="header-logo" src="/assets/logo_p6.png" alt="logo" />
+                  </a>
+            </div>
             
-      </div>
       <div class="header-center">
         
       </div>

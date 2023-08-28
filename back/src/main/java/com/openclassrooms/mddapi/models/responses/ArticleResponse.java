@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 public class ArticleResponse {
 
+    private Integer id;
     private String title;
 
     private LocalDateTime createdAt;
@@ -23,5 +24,5 @@ public class ArticleResponse {
 
     private String content;
 
-    private List<Comment> comment;
+    private List<CommentResponse> comments;
 }

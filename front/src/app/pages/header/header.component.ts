@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SessionService } from 'src/app/services/session.service';
 
 
 @Component({
@@ -8,10 +9,10 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  isLogged = false;
   @Input() isRegistered: Boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, private sessionService : SessionService) {
     this.isRegistered = false
   }
 
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
       // Mettez à jour l'état de l'affichage de l'en-tête
       //this.showHeader = !isMainPage;
     });
+    this.isLogged = this.sessionService.isLogged;
   }
 
 }

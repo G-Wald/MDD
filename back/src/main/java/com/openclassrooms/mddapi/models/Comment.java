@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Comment {
 
@@ -34,10 +35,12 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "ID_Article", referencedColumnName = "id")
     private Article article;
 
     @OneToOne
+    @NonNull
     @JoinColumn(name = "ID_User", referencedColumnName = "id")
     private User user;
 

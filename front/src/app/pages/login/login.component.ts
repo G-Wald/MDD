@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
    
   public hide = true;
-  public onError = false;
+  errorMessage = '';
 
   public form = this.fb.group({
     usernameOrEmail: [
@@ -45,7 +45,13 @@ export class LoginComponent {
         this.sessionService.logIn(response);
         this.router.navigate(['/articles']);
       },
-      error: error => this.onError = true,
+      error: error =>{
+        if (error.error &&  error.error.error) {
+          this.errorMessage = error.error.error;
+        } else {
+          this.errorMessage = 'Une erreur s\'est produite lors de la connexion.';
+        }
+      } 
     });
   }
 

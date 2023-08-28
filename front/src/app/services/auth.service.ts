@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginRequest } from '../interfaces/loginRequest.interface';
 import { RegisterRequest } from '../interfaces/registerRequest.interface';
+import { RegisterResponse } from '../interfaces/registerResponse.interface';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 
 @Injectable({
@@ -14,9 +15,9 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public register(registerRequest: RegisterRequest): Observable<void> {
+  public register(registerRequest: RegisterRequest): Observable<RegisterResponse> {
     console.log(`${this.pathService}/register`)
-    return this.httpClient.post<void>(`${this.pathService}/register`, registerRequest);
+    return this.httpClient.post<RegisterResponse>(`${this.pathService}/register`, registerRequest);
   }
 
   public login(loginRequest: LoginRequest): Observable<SessionInformation> {

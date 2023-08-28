@@ -1,7 +1,12 @@
+import { Comment } from "../interfaces/comment.interface"
+
 export interface ArticleInformation {
-    //token: string;
-    type: string;
-    id: number;
-    username: string;
+    id:number;
+    title:String;
+    createdAt:Date;
+    authorUsername:String;
+    content:string;
+    themes: String[];
+    comments: Array<Comment>;
   }
   

@@ -8,9 +8,21 @@ import { SessionInformation } from '../interfaces/sessionInformation.interface';
 export class SessionService {
 
   public isLogged = false;
-  public sessionInformation: SessionInformation | undefined;
+  private sessionInformation: SessionInformation | null;
+
+  constructor() {
+    this.sessionInformation = null;
+  }
 
   private isLoggedSubject = new BehaviorSubject<boolean>(this.isLogged);
+
+  public getSessionInformation():SessionInformation{
+    
+    if(this.sessionInformation == null){
+      return new SessionInformation("","","");
+    }
+    return this.sessionInformation;
+  }
 
   public $isLogged(): Observable<boolean> {
     return this.isLoggedSubject.asObservable();
@@ -23,7 +35,6 @@ export class SessionService {
   }
 
   public logOut(): void {
-    this.sessionInformation = undefined;
     this.isLogged = false;
     this.next();
   }

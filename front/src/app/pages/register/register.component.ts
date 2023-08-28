@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../interfaces/registerRequest.interface';
 import { ReactiveFormsModule } from '@angular/forms'; // Importez ReactiveFormsModule depuis @angular/forms
+import { RegisterResponse } from '../../interfaces/registerResponse.interface';
 
 @Component({
   selector: 'app-register',
@@ -12,8 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importez ReactiveFormsM
 })
 export class RegisterComponent {
 
-  public onError = false;
-
+  errorMessage = '';
   form : FormGroup;
 
   constructor(private authService: AuthService,
@@ -49,23 +49,28 @@ export class RegisterComponent {
 
   public submitForm(): void {
     const registerRequest = this.form.value as RegisterRequest;
-    this.onError = false;
-
+    this.errorMessage = "";
     Object.keys(this.form.controls).forEach((v)=>{
       var input = this.form.controls[v]
       if(input.status == "INVALID"){
-        this.onError = true;
+        this.errorMessage = "Une erreur s\'est produite lors de l'inscription.";
         }
     })
 
-    if(this.onError){
+    if(this.errorMessage != null && this.errorMessage != ""){
       return;
     }
 
     this.authService.register(registerRequest).subscribe({
-        next: (_: void) => this.router.navigate(['/login']),
-        error: _ => this.onError = true,
+        next: (response: RegisterResponse) => this.router.navigate(['/login']),
+        error: error=>{
+        if (error.error && error.error.error) {
+          this.errorMessage = error.error.error;
+        } else {
+          this.errorMessage = "Une erreur s\'est produite lors de l'inscription.";
+        }
       }
+    }
     );
   }
 

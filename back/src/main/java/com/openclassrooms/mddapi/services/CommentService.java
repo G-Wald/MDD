@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.models.Comment;
+import com.openclassrooms.mddapi.models.Subscription;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,9 @@ public class CommentService {
 
     public List<Comment> findCommentsByArticleId(Integer articleId){
         return this.commentRepository.findByArticleId(articleId);
+    }
+
+    public Comment save(Comment comment){
+        return this.commentRepository.save(comment);
     }
 }

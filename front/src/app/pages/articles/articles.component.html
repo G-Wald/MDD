@@ -1,2 +1,24 @@
 <app-header [isRegistered]="isRegistered"></app-header>
 <p>articles works!</p>
+
+<div class="container">
+    <button class="create-button">Créer un nouvel article</button>
+    <div class="article-list" >
+        <div class="article-list" >
+            
+          <ng-container *ngIf="articles.length === 0; else articlesList">
+            <p>Aucun article n'a été trouvé.</p>
+          </ng-container>
+      
+          <ng-template #articlesList>
+            <div class="article-card" *ngFor="let article of articles" (click)="goToSelectedArticle(article.id)">
+              <h2>{{ article.title }}</h2>
+              <p>Auteur : {{ article.authorUsername }}</p>
+              <p>Date : {{ article.createdAt | date:'medium' }}</p>
+              <p>{{ article.content | slice:0:100 }}...</p>
+            </div>
+          </ng-template>
+      
+        </div>
+  </div>
+  

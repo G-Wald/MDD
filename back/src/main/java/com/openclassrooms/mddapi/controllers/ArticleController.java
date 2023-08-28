@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.auth.request.LoginRequest;
 import com.openclassrooms.mddapi.models.*;
 import com.openclassrooms.mddapi.models.responses.ArticleResponse;
 import com.openclassrooms.mddapi.models.responses.ArticlesResponse;
+import com.openclassrooms.mddapi.models.responses.CommentResponse;
 import com.openclassrooms.mddapi.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +46,13 @@ public class ArticleController {
 
             return ResponseEntity.ok().body(ArticleResponse
                     .builder()
+                    .id(article.getId())
                     .title(article.getTitle())
                     .createdAt(article.getCreatedAt())
                     .authorUsername(article.getUser().getUsername())
                     .themes(themes.stream().map(Theme::getTitle).collect(Collectors.toList()))
                     .content(article.getContent())
-                    .comment(comments)
+                    .comments(comments.stream().map(comment -> new CommentResponse(comment.getUser().getUsername(), comment.getMessage())).collect(Collectors.toList()))
                     .build());
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().build();
@@ -78,4 +80,7 @@ public class ArticleController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+
+
 }
