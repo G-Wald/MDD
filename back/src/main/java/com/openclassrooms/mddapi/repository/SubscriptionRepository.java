@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
     List<Subscription> findByUserId(Integer userId);
     Optional<Subscription> findByUserIdAndThemeId(Integer userId, Integer themeId);
+
+    void deleteByUserIdAndThemeId(Integer userId, Integer themeId);
+
 }

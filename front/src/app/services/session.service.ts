@@ -19,7 +19,7 @@ export class SessionService {
   public getSessionInformation():SessionInformation{
     
     if(this.sessionInformation == null){
-      return new SessionInformation("","","");
+      return new SessionInformation("","","","");
     }
     return this.sessionInformation;
   }

@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.models.Subscription;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,9 @@ public class SubscriptionService {
         this.subscriptionRepository.save(subscription);
     }
 
-    public void delete(Integer id){
-        this.subscriptionRepository.deleteById(id);
+    @Transactional
+    public void delete(Integer themeId, Integer userId){
+        this.subscriptionRepository.deleteByUserIdAndThemeId(userId, themeId);
     }
 
 }

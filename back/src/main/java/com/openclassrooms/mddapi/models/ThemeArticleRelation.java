@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class ThemeArticleRelation {
 

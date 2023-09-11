@@ -1,8 +1,7 @@
 <app-header [isRegistered]="isRegistered"></app-header>
-<p>articles works!</p>
 
 <div class="container">
-    <button class="create-button">Créer un nouvel article</button>
+    <button class="create-button" (click)="createNewArticle()" >Créer un nouvel article</button>
     <div class="article-list" >
         <div class="article-list" >
             

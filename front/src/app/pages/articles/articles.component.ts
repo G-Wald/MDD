@@ -21,7 +21,7 @@ export class ArticlesComponent implements OnInit {
   ngOnInit(): void {
     //Appeler un service pour vérifier si l'utilisateur est log
     this.isRegistered = true;
-    this.articleService.getArticles(40).subscribe(data => {
+    this.articleService.getArticles(this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id ): 40).subscribe(data => {
       this.articles = data;
     });
   }
@@ -30,4 +30,7 @@ export class ArticlesComponent implements OnInit {
     this.router.navigate(['/selected-article', id]);
   }
 
+  createNewArticle(){
+    this.router.navigate(['/new-article']);
+  }
 }

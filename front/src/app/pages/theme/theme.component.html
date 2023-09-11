@@ -1,2 +1,24 @@
 <app-header [isRegistered]="isRegistered"></app-header>
-<p>theme works!</p>
+
+<div class="container">
+    <div class="theme-list" >
+        <div class="theme-list" >
+            
+          <ng-container *ngIf="themes.length === 0; else themeslist">
+            <p>Aucun theme n'a été trouvé.</p>
+          </ng-container>
+      
+          <ng-template #themeslist>
+            <div class="article-card" *ngFor="let theme of themes">
+              <h2>{{ theme.title }}</h2>
+              <p>{{ theme.description | slice:0:100 }}...</p>
+              <button (click)="toggleAbonnement(theme.id, theme.isSubscribe)">
+                {{ theme.isSubscribe ? 'Se désabonner' : 'S\'abonner' }}
+              </button>
+              
+            </div>
+          </ng-template>
+      
+        </div>
+  </div>
+  

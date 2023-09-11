@@ -1,2 +1,28 @@
 <app-header [isRegistered]="isRegistered"></app-header>
-<p>new-article works!</p>
+
+  <div class="article-header">
+    <button (click)="goBackToList()" class="back-button">←</button>
+    <h1>Créer un nouvel article</h1>
+  </div>
+  <form>
+    <div>
+      <label for="themes">Thèmes :</label>
+      <mat-select id="theme" name="theme" [(ngModel)]="article.themes" multiple>
+        <mat-option *ngFor="let theme of themes" [value]="theme.id">{{ theme.title }}</mat-option>
+      </mat-select>
+    </div>
+  
+    <div>
+      <label for="title">Titre :</label>
+      <input type="text" id="titre" name="titre" [(ngModel)]="article.title" placeholder="Titre de l'article" />
+    </div>
+  
+    <div>
+      <label for="content">Contenu :</label>
+      <textarea id="contenu" name="contenu" [(ngModel)]="article.content" placeholder="Contenu de l'article"></textarea>
+    </div>
+  
+    <button (click)="submitForm()">Créer l'article</button>
+  </form>
+  
+  

@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controllers;
 
 
+import com.openclassrooms.mddapi.auth.request.userIdRequest;
 import com.openclassrooms.mddapi.models.*;
 import com.openclassrooms.mddapi.models.responses.ArticleResponse;
 import com.openclassrooms.mddapi.models.responses.ArticlesResponse;
@@ -49,9 +50,6 @@ public class ThemeController {
 
             List<Integer> themeIds = this.subscriptionService.findThemesByUserId(user.getId());
 
-            if (themeIds.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
             return ResponseEntity.ok().body(themes.stream()
                     .map(theme ->ThemeResponse
                             .builder()
@@ -67,9 +65,9 @@ public class ThemeController {
         }
     }
     @PostMapping("/subscribe/{id}")
-    public ResponseEntity<?> subscribe(@PathVariable("id") Integer id, @RequestBody Integer userId) {
+    public ResponseEntity<?> subscribe(@PathVariable("id") Integer id, @RequestBody userIdRequest userId) {
         try {
-            User user = this.userService.findById(userId);
+            User user = this.userService.findById(userId.getUserId());
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
@@ -88,21 +86,55 @@ public class ThemeController {
 
             this.subscriptionService.save(new Subscription(theme, user));
 
-            return ResponseEntity.ok().body("Sucesseful Subscribe");
+            return ResponseEntity.ok().build();
 
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @DeleteMapping("/unsubscribe/{id}")
+    //A change en requete delete des que security est mis en place
+    //delete n'accepte pas de body donc pas d userId
+   /* @PostMapping("/unsubscribe/{id}")
     public ResponseEntity<?> unsubscribe(@PathVariable("id") Integer id) {
         try {
             this.subscriptionService.delete(id);
-            return ResponseEntity.ok().body("Sucesseful Unsubscribe");
+            return ResponseEntity.ok().build();
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }*/
+    @PostMapping("/unsubscribe/{id}")
+    public ResponseEntity<?> unsubscribe(@PathVariable("id") Integer id, @RequestBody userIdRequest userId) {
+        try {
+            User user = this.userService.findById(userId.getUserId());
+
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Theme theme = this.themeService.findById(id);
+
+            if (theme == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            if(!this.subscriptionService.findByUserIdAndByThemeId(user.getId(), theme.getId())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("User not subscribe");
+            }
+
+            this.subscriptionService.delete(id, userId.getUserId());
+            return ResponseEntity.ok().build();
+
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().build();
         }
     }
+
+
+
+
+
 
 }

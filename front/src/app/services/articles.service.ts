@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { ArticleSmallInformation } from '../interfaces/articleSmallInformation.interface';
 import { ArticleInformation } from '../interfaces/articleInformation.interface';
 import { NewArticleInformation } from '../interfaces/newArticleInformation.interface';
@@ -23,7 +23,15 @@ import { NewArticleInformation } from '../interfaces/newArticleInformation.inter
       return this.httpClient.get<ArticleInformation>(`${this.pathService}/article/${id}`);
     }
 
-    public createArticle(newArticle: NewArticleInformation ): Observable<ArticleInformation> {
-        return this.httpClient.post<ArticleInformation>(`${this.pathService}/newArticle`, newArticle);
-      }
+    public createArticle(userId : number, newArticle: NewArticleInformation ): Observable<any> {
+      console.log(`${this.pathService}/newarticle/${userId}`)
+      console.log(newArticle)
+      return this.httpClient.post<any>(`${this.pathService}/newarticle/${userId}`, newArticle)
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          return throwError(() => new HttpErrorResponse(error));
+        })
+      );
+    }
   }

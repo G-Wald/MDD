@@ -1,2 +1,22 @@
 <app-header [isRegistered]="isRegistered"></app-header>
-<p>profil works!</p>
+
+<div class="article-header">
+    <button (click)="goBackToList()" class="back-button">←</button>
+    <h1>Profil utilisateur</h1>
+  </div>
+  <form>
+    <div>
+      <label for="title">Username :</label>
+      <input type="text" id="titre" name="titre" [(ngModel)]="profil.username"  [placeholder]="profil.username" />
+    </div>
+  
+    <div>
+      <label for="content">Email :</label>
+      <input id="contenu" name="contenu" [(ngModel)]="profil.email" [placeholder]="profil.email"/>
+    </div>
+  
+    <button (click)="submitForm()">Sauvegarder</button>
+  </form>
+  <button (click)="disconnect()">Se déconnecter</button>
+
+  

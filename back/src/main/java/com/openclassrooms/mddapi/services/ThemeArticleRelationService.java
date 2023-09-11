@@ -44,4 +44,8 @@ public class ThemeArticleRelationService {
     public List<Theme> findThemeByArticleId(Integer articleId){
         return this.themeArticleRelationRepository.findByArticleId(articleId).stream().map(ThemeArticleRelation::getTheme).collect(Collectors.toList());
     }
+    public ThemeArticleRelation save(ThemeArticleRelation themeArticleRelation){
+        return this.themeArticleRelationRepository.save(themeArticleRelation);
+    }
+
 }

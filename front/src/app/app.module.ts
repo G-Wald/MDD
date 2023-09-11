@@ -18,6 +18,7 @@ import { SelectedArticleComponent } from './pages/selected-article/selected-arti
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule} from '@angular/common/http';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, HeaderComponent, RegisterComponent, LoginComponent, ArticlesComponent, ThemesComponent, ThemeComponent, ArticleComponent, ProfilComponent, NewArticleComponent, SelectedArticleComponent],
@@ -30,6 +31,7 @@ import { HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule,
     MatFormFieldModule,
     HttpClientModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
