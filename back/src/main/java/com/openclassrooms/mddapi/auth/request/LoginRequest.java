@@ -1,8 +1,10 @@
 package com.openclassrooms.mddapi.auth.request;
 
-import javax.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequest {
+
     @NotBlank
     private String usernameOrEmail;
 

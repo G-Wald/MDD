@@ -3,9 +3,10 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.models.Subscription;
 import com.openclassrooms.mddapi.repository.SubscriptionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 

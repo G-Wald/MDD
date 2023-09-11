@@ -3,15 +3,12 @@ package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.auth.request.userIdRequest;
 import com.openclassrooms.mddapi.models.*;
-import com.openclassrooms.mddapi.models.responses.ArticleResponse;
-import com.openclassrooms.mddapi.models.responses.ArticlesResponse;
 import com.openclassrooms.mddapi.models.responses.ThemeResponse;
 import com.openclassrooms.mddapi.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,10 +128,4 @@ public class ThemeController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
-
-
-
-
 }

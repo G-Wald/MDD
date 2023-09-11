@@ -5,24 +5,26 @@ import com.openclassrooms.mddapi.auth.request.RegisterRequest;
 import com.openclassrooms.mddapi.auth.request.UsernameRequest;
 import com.openclassrooms.mddapi.auth.response.LoginResponse;
 import com.openclassrooms.mddapi.auth.response.RegisterResponse;
+import com.openclassrooms.mddapi.auth.response.TokenResponse;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
-    public UserController(UserService userService) {
+    public UserController(PasswordEncoder passwordEncoder, UserService userService) {
+        this.passwordEncoder = passwordEncoder;
         this.userService = userService;
     }
-
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -58,18 +60,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-            User user = userService.findByUsernameOrEmail(loginRequest.getUsernameOrEmail());
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
 
-        if (user == null) {
-            logger.info("error");
-            return ResponseEntity.status(404).body(new LoginResponse("", "","","Utilisateur non trouvé"));
+        TokenResponse tokenResponse = userService.authenticate(loginRequest);
+
+        if (tokenResponse == null || tokenResponse.getToken() == null || tokenResponse.getToken().equals("")) {
+            return ResponseEntity.status(404).body(new TokenResponse("", "Utilisateur non trouvé"));
         }
-        //if (!userService.passwordEncoder().matches(loginUser.getPassword(), user.getPassword())) {
-        //    return ResponseEntity.status(401).body("Mot de passe incorrect");
-        //}
-
-        return ResponseEntity.ok(new LoginResponse(Integer.toString(user.getId()), user.getUsername(), user.getEmail(), ""));
+        return ResponseEntity.ok(tokenResponse);
     }
 
     @PostMapping("/register")
@@ -105,8 +103,7 @@ public class UserController {
         User user = new User(
                 registerRequest.getUsername(),
                 registerRequest.getEmail(),
-                registerRequest.getPassword()
-                //passwordEncoder.encode(registerUser.getPassword()),
+                passwordEncoder.encode(registerRequest.getPassword())
                 );
 
         userService.save(user);
