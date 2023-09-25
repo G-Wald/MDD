@@ -1,4 +1,4 @@
-export class Comment {
+export class CommentResponse {
     authorUsername: string;
     message: string;
 

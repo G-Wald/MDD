@@ -11,6 +11,9 @@ import com.openclassrooms.mddapi.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,35 +31,35 @@ public class UserController {
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @GetMapping("/profil/{id}")
-    public ResponseEntity<LoginResponse> GetProfil(@PathVariable("id") Integer id) {
-        User user = userService.findById(id);
+    public User getUserFromToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ((authentication instanceof AnonymousAuthenticationToken)) {
+            return null;
+        }
+        return userService.findByUsernameOrEmail(authentication.getName());
+    }
+
+    @GetMapping("/profil")
+    public ResponseEntity<LoginResponse> GetProfil() {
+        User user = this.getUserFromToken();
 
         if (user == null) {
-            return ResponseEntity.status(404).body(new LoginResponse("", "","","Utilisateur non trouvé"));
+            return ResponseEntity.status(404).body(new LoginResponse("","","Utilisateur non trouvé"));
         }
-        //if (!userService.passwordEncoder().matches(loginUser.getPassword(), user.getPassword())) {
-        //    return ResponseEntity.status(401).body("Mot de passe incorrect");
-        //}
 
-        return ResponseEntity.ok(new LoginResponse(Integer.toString(user.getId()), user.getUsername(), user.getEmail(), ""));
+        return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), ""));
     }
 
     @PostMapping("/saveprofil")
     public ResponseEntity<LoginResponse> saveUsername(@RequestBody UsernameRequest usernameRequest) {
 
-        //A modifier apres spring security!!!!!!!!!!!!!!!
-        User user = userService.findByUsernameOrEmail(usernameRequest.getUsername());
+        User user = this.getUserFromToken();
 
         if (user == null) {
-            logger.info("error");
-            return ResponseEntity.status(404).body(new LoginResponse("", "","","Utilisateur non trouvé"));
+            return ResponseEntity.status(404).body(new LoginResponse( "","","Utilisateur non trouvé"));
         }
-        //if (!userService.passwordEncoder().matches(loginUser.getPassword(), user.getPassword())) {
-        //    return ResponseEntity.status(401).body("Mot de passe incorrect");
-        //}
 
-        return ResponseEntity.ok(new LoginResponse(Integer.toString(user.getId()), user.getUsername(), user.getEmail(), ""));
+        return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), ""));
     }
 
     @PostMapping("/login")

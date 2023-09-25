@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleInformation } from 'src/app/interfaces/articleInformation.interface';
 import { NewArticleInformation } from 'src/app/interfaces/newArticleInformation.interface';
-import { Comment } from 'src/app/interfaces/comment.interface';
+import { CommentResponse } from 'src/app/interfaces/commentResponse.interface';
 import { ArticlesService } from 'src/app/services/articles.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { SessionService } from 'src/app/services/session.service';
+import { CommentRequest } from 'src/app/interfaces/commentRequest.interface';
 
 
 
@@ -18,7 +19,7 @@ export class SelectedArticleComponent implements OnInit {
 
   isRegistered: Boolean;
   article!: ArticleInformation;
-  comments: Comment[] = [];
+  comments: CommentResponse[] = [];
   newComment: string = '';
 
    constructor(
@@ -48,9 +49,9 @@ export class SelectedArticleComponent implements OnInit {
     }
   
     addComment() {
-      if (this.newComment && this.sessionService.getSessionInformation() != null) {
-        let comment : Comment = new Comment(this.sessionService.getSessionInformation().username , this.newComment);
-        this.commentService.createComment(this.article.id, comment ).subscribe((commentParam : Comment) => {
+      if (this.newComment) {
+        let comment : CommentRequest = new CommentRequest(this.newComment);
+        this.commentService.createComment(this.article.id, comment ).subscribe((commentParam : CommentResponse) => {
           
           this.article.comments.push(commentParam);
           this.newComment = ''; 

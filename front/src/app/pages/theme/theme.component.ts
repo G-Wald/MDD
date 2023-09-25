@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeResponse } from 'src/app/interfaces/themesResponse.interface';
 import { SessionService } from 'src/app/services/session.service';
 import { ThemesService } from 'src/app/services/themes.service';
-import { UserIdRequest } from 'src/app/interfaces/userIdRequest.interface';
 
 @Component({
   selector: 'app-theme',
@@ -22,17 +21,16 @@ export class ThemeComponent implements OnInit {
   ngOnInit(): void {
     //Appeler un service pour vérifier si l'utilisateur est log
     this.isRegistered = true;
-    this.themesService.getThemes(this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id ): 40).subscribe(data => {
+    this.themesService.getThemes().subscribe(data => {
       this.themes = data;
     });
 
   }
 
   toggleAbonnement(id: number, isSubscribe:boolean) {
-    let userIdRequest = new UserIdRequest(this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id ): 40)
     const indice = this.themes.findIndex(objet => objet.id === id);
-    if(isSubscribe){
-      this.themesService.unsubscribe(id, userIdRequest).subscribe(
+    if(isSubscribe == true){
+      this.themesService.unsubscribe(id).subscribe(
         (data) => {
           this.themes[indice].isSubscribe = !this.themes[indice].isSubscribe
         },
@@ -41,7 +39,7 @@ export class ThemeComponent implements OnInit {
         }
       );
     }else{
-      this.themesService.subscribe(id, userIdRequest).subscribe(
+      this.themesService.subscribe(id).subscribe(
         (data) => {
           this.themes[indice].isSubscribe = !this.themes[indice].isSubscribe
         },

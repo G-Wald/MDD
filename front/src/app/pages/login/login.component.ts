@@ -5,6 +5,7 @@ import { SessionInformation } from 'src/app/interfaces/sessionInformation.interf
 import { SessionService } from 'src/app/services/session.service';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
+import { LoginResponse } from '../../interfaces/loginResponse.interface';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ export class LoginComponent {
   public submitForm(): void {
     const loginRequest = this.form.value as LoginRequest;
     this.authService.login(loginRequest).subscribe({
-      next: (response: SessionInformation) => {
+      next: (response: LoginResponse) => {
         this.sessionService.logIn(response);
         this.router.navigate(['/articles']);
       },

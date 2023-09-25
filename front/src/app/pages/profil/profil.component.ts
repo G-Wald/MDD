@@ -21,12 +21,12 @@ export class ProfilComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private themesService: ThemesService, private sessionService: SessionService, private articleService : ArticlesService) {
     this.isRegistered = false;
     this.article = new NewArticleInformation( new Array<Number>(),"","");
-    this.profil = new SessionInformation("","","","");
+    this.profil = new SessionInformation("","","");
   }
   ngOnInit(): void {
     //Appeler un service pour vérifier si l'utilisateur est log
     this.isRegistered = true;
-      this.authService.getProfil(this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id ): 40).subscribe(data => {
+      this.authService.getProfil().subscribe(data => {
         this.profil = data;
     });
   }
@@ -36,7 +36,6 @@ export class ProfilComponent implements OnInit {
   }
 
   submitForm(){
-    const userId = this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id) : 40;
     this.authService.saveProfil(new ProfilRequest( this.profil.username, this.profil.email))
   }
 

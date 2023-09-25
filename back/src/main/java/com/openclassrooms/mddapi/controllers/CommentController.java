@@ -8,6 +8,9 @@ import com.openclassrooms.mddapi.models.responses.CommentResponse;
 import com.openclassrooms.mddapi.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -29,7 +32,15 @@ public class CommentController {
     @PostMapping("/newComment/{id}")
     public ResponseEntity<?> subscribe(@PathVariable("id") Integer id, @RequestBody CommentRequest commentRequest) {
         try {
-            User user = this.userService.findByUsernameOrEmail(commentRequest.getAuthorUsername());
+
+            String currentUserName = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if ((authentication instanceof AnonymousAuthenticationToken)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            currentUserName = authentication.getName();
+            var user = userService.findByUsernameOrEmail(authentication.getName());
 
             if (user == null) {
                 return ResponseEntity.notFound().build();

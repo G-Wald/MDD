@@ -24,7 +24,7 @@ export class NewArticleComponent implements OnInit {
   ngOnInit(): void {
     //Appeler un service pour vérifier si l'utilisateur est log
     this.isRegistered = true;
-    this.themesService.getThemes(this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id ): 40).subscribe(data => {
+    this.themesService.getThemes().subscribe(data => {
       this.themes = data;
     });
   }
@@ -34,14 +34,13 @@ export class NewArticleComponent implements OnInit {
   }
 
   submitForm(){
-    const userId = this.sessionService.getSessionInformation().id != ""? parseInt(this.sessionService.getSessionInformation().id) : 40;
-    this.articleService.createArticle(userId, this.article).subscribe({
+    this.articleService.createArticle(this.article).subscribe({
       next:(data) =>{
         console.log(data);
       },
       error:(error)=>console.log(error),
     });
     
-    //this.router.navigate(['/articles']);
+    this.router.navigate(['/articles']);
   }
 }

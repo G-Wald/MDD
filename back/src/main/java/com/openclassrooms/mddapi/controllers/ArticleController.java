@@ -7,6 +7,9 @@ import com.openclassrooms.mddapi.models.responses.ArticlesResponse;
 import com.openclassrooms.mddapi.models.responses.CommentResponse;
 import com.openclassrooms.mddapi.services.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -64,10 +67,19 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("/articles/{id}")
-    public ResponseEntity<?> findArticlesByUserId(@PathVariable("id") Integer userId) {
+    @GetMapping("/articles")
+    public ResponseEntity<?> findArticlesByUserId() {
         try {
-            List<Integer> themeIds = this.subscriptionService.findThemesByUserId(userId);
+            String currentUserName = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if ((authentication instanceof AnonymousAuthenticationToken)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            currentUserName = authentication.getName();
+            var user = userService.findByUsernameOrEmail(authentication.getName());
+
+            List<Integer> themeIds = this.subscriptionService.findThemesByUserId(user.getId());
 
             if (themeIds.isEmpty()) {
                 return ResponseEntity.notFound().build();
@@ -86,15 +98,19 @@ public class ArticleController {
         }
     }
     private static final Logger logger = Logger.getLogger(ArticleController.class.getName());
-    @PostMapping("/newarticle/{id}")
-    public ResponseEntity<?> createNewArticle(@PathVariable("id") Integer userId, @RequestBody ArticleRequest articleRequest) {
+    @PostMapping("/newarticle")
+    public ResponseEntity<?> createNewArticle( @RequestBody ArticleRequest articleRequest) {
         try {
-            User user = this.userService.findById(userId);
-            logger.severe("debutr avant user");
-            if(user == null){
+
+            String currentUserName = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if ((authentication instanceof AnonymousAuthenticationToken)) {
                 return ResponseEntity.notFound().build();
             }
-            logger.warning("moimoimoimoimoimoimoimoimoimoimoimoimoimoimoimoi");
+
+            currentUserName = authentication.getName();
+            var user = userService.findByUsernameOrEmail(authentication.getName());
+
             Article dbArticle =this.articleService.save(Article.builder()
                     .user(user)
                     .title(articleRequest.getTitle())
@@ -102,7 +118,6 @@ public class ArticleController {
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build());
-            logger.warning("2");
             for ( int themeId : articleRequest.getThemes()) {
                 Theme theme = this.themeService.findById(themeId);
                 if(theme == null){

@@ -7,6 +7,9 @@ import com.openclassrooms.mddapi.models.responses.ThemeResponse;
 import com.openclassrooms.mddapi.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,10 +33,10 @@ public class ThemeController {
 
     private final SubscriptionService subscriptionService;
 
-    @GetMapping("/themes/{id}")
-    public ResponseEntity<?> findThemes(@PathVariable("id") Integer id) {
+    @GetMapping("/themes")
+    public ResponseEntity<?> findThemes() {
         try {
-            User user = this.userService.findById(id);
+            User user = this.getUserFromToken();
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
@@ -61,10 +64,19 @@ public class ThemeController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public User getUserFromToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ((authentication instanceof AnonymousAuthenticationToken)) {
+            return null;
+        }
+        return userService.findByUsernameOrEmail(authentication.getName());
+    }
+
     @PostMapping("/subscribe/{id}")
-    public ResponseEntity<?> subscribe(@PathVariable("id") Integer id, @RequestBody userIdRequest userId) {
+    public ResponseEntity<?> subscribe(@PathVariable("id") Integer id) {
         try {
-            User user = this.userService.findById(userId.getUserId());
+            User user = this.getUserFromToken();
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
@@ -90,21 +102,11 @@ public class ThemeController {
         }
     }
 
-    //A change en requete delete des que security est mis en place
-    //delete n'accepte pas de body donc pas d userId
-   /* @PostMapping("/unsubscribe/{id}")
+    //put
+     @DeleteMapping("/unsubscribe/{id}")
     public ResponseEntity<?> unsubscribe(@PathVariable("id") Integer id) {
         try {
-            this.subscriptionService.delete(id);
-            return ResponseEntity.ok().build();
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }*/
-    @PostMapping("/unsubscribe/{id}")
-    public ResponseEntity<?> unsubscribe(@PathVariable("id") Integer id, @RequestBody userIdRequest userId) {
-        try {
-            User user = this.userService.findById(userId.getUserId());
+            User user = this.getUserFromToken();
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
@@ -121,7 +123,7 @@ public class ThemeController {
                         .body("User not subscribe");
             }
 
-            this.subscriptionService.delete(id, userId.getUserId());
+            this.subscriptionService.delete(id, user.getId());
             return ResponseEntity.ok().build();
 
         } catch (NumberFormatException e) {

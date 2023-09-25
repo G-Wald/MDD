@@ -4,6 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { ArticleSmallInformation } from '../interfaces/articleSmallInformation.interface';
 import { ArticleInformation } from '../interfaces/articleInformation.interface';
 import { NewArticleInformation } from '../interfaces/newArticleInformation.interface';
+import { SessionService } from './session.service';
 
 
 @Injectable({
@@ -13,20 +14,21 @@ import { NewArticleInformation } from '../interfaces/newArticleInformation.inter
   
     private pathService = '/api';
   
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient, private sessionService: SessionService) { }
   
-    public getArticles(id: number): Observable<ArticleSmallInformation[]> {
-      return this.httpClient.get<ArticleSmallInformation[]>(`${this.pathService}/articles/${id}`);
+    public getArticles(): Observable<ArticleSmallInformation[]> {
+      const headers = this.sessionService.getHeadersWithAuthorization();
+      return this.httpClient.get<ArticleSmallInformation[]>(`${this.pathService}/articles`, {headers});
     }
   
     public getArticle(id: number): Observable<ArticleInformation> {
-      return this.httpClient.get<ArticleInformation>(`${this.pathService}/article/${id}`);
+      const headers = this.sessionService.getHeadersWithAuthorization();
+      return this.httpClient.get<ArticleInformation>(`${this.pathService}/article/${id}`, {headers});
     }
 
-    public createArticle(userId : number, newArticle: NewArticleInformation ): Observable<any> {
-      console.log(`${this.pathService}/newarticle/${userId}`)
-      console.log(newArticle)
-      return this.httpClient.post<any>(`${this.pathService}/newarticle/${userId}`, newArticle)
+    public createArticle(newArticle: NewArticleInformation ): Observable<any> {
+      const headers = this.sessionService.getHeadersWithAuthorization();
+      return this.httpClient.post<any>(`${this.pathService}/newarticle`, newArticle, {headers})
       .pipe(
         catchError((error) => {
           console.error(error);

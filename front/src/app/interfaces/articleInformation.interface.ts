@@ -1,4 +1,4 @@
-import { Comment } from "../interfaces/comment.interface"
+import { CommentResponse } from "./commentResponse.interface"
 
 export interface ArticleInformation {
     id:number;
@@ -7,6 +7,6 @@ export interface ArticleInformation {
     authorUsername:String;
     content:string;
     themes: String[];
-    comments: Array<Comment>;
+    comments: Array<CommentResponse>;
   }
   

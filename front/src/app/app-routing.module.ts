@@ -10,11 +10,9 @@ import { ProfilComponent } from './pages/profil/profil.component';
 import { SelectedArticleComponent } from './pages/selected-article/selected-article.component';
 import { NewArticleComponent } from './pages/new-article/new-article.component';
 
-
-
-
+//Add guards
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent ,  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profil', component: ProfilComponent },
