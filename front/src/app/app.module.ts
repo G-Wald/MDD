@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule} from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { CookieService } from 'ngx-cookie-service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, HeaderComponent, RegisterComponent, LoginComponent, ArticlesComponent, ThemeComponent, ProfilComponent, NewArticleComponent, SelectedArticleComponent],
@@ -31,6 +32,7 @@ import { CookieService } from 'ngx-cookie-service';
     MatFormFieldModule,
     HttpClientModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

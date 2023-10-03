@@ -2,29 +2,34 @@
 <div class="container">
     <div class="article-header">
       <button (click)="goBackToList()" class="back-button">←</button>
-      <h1>{{ article.title }}</h1>
+      <h1 class="article-title">{{ article.title }}</h1>
     </div>
-    <p>Date : {{ article.createdAt | date:'medium' }}</p>
+    <div class="article-info">
+    <p>Date : {{ article.createdAt | date:'mediumDate' }}</p>
     <p>Auteur : {{ article.authorUsername }}</p>
     <p *ngFor="let theme of article.themes" class="comment">
-        theme
+        {{theme}}
     </p>
-  
+  </div>
     <div class="article-content">
       <p>{{ article.content }}</p>
+    </div>
+    <div class="separation">
     </div>
   
     <h2>Commentaires</h2>
     <div class="comment-list">
       <div *ngFor="let comment of article.comments" class="comment">
-        <p><strong>{{ comment.authorUsername }}</strong></p>
-        <p>{{ comment.message }}</p>
+        <p class="username"><strong>{{ comment.authorUsername }}</strong></p>
+        <p class="message">{{ comment.message }}</p>
       </div>
     </div>
-  
+    <div class="place-scroller">
+    </div>
+
     <div class="add-comment">
-      <textarea [(ngModel)]="newComment" placeholder="Écrivez un commentaire"></textarea>
-      <button (click)="addComment()" class="add-button">Valider</button>
+      <textarea [(ngModel)]="newComment" placeholder="Écrivez ici un commentaire"></textarea>
+      <button (click)="addComment()" class="add-button"><img class="valider-logo" src="../../../assets/iconValider.PNG" alt="logo" /></button>
     </div>
   </div>
   

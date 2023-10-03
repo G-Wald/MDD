@@ -21,16 +21,12 @@ button {
   margin-bottom: 16px;
 }
 
-
-
-/* Mise en forme des titres des champs */
 .form-group label {
   display: block;
   margin-bottom: 2px;
   font-size: large;
 }
 
-/* Mise en forme des champs d'entrée */
 .form-group input {
   width: 20vw;
   height: 3vh;
@@ -68,6 +64,9 @@ button {
       font-size: 50px;
       color: black;
     }
+    .container{
+      margin-top: 105px;
+    }
 }
 
 @media all and (min-width: 701px){
@@ -77,6 +76,8 @@ button {
 
   .back-button {
     margin-right: auto;
+    margin-top: 30px;
+    margin-left: 30px;
     background: none;
     border: none;
     font-weight: bold;
@@ -84,12 +85,11 @@ button {
     color: black;
   
     &:hover {
-      color: gray; // Couleur au survol
+      color: gray; 
     }
   }
 }
 
-/* Mise en forme du bouton "S'inscrire" */
 form.register-form button {
   background-color: #7763c5;
   color: white;
@@ -108,14 +108,12 @@ form.register-form{
   flex-direction: column;
 }
 
-/* Mise en forme du message d'erreur */
 .error {
   display: block;
   color: red;
   margin-top: 5px;
 }
 
-/* Espace le titre "Inscription" */
 .container h2 {
   font-size: xx-large;
   margin-bottom: 55px;

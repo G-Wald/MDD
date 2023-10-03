@@ -1,7 +1,8 @@
 
 <app-header></app-header>
+<button (click)="goBackToList()" class="back-button">←</button>
 <div class="container">
-  <button (click)="goBackToList()" class="back-button">←</button>
+  <img class="imgmdd" src="/assets/logo_p6.png" alt="logo" />
     <h2>Connexion</h2>
     <form class="login-form"  [formGroup]="form" (ngSubmit)="submitForm()">
       <div class="form-group">

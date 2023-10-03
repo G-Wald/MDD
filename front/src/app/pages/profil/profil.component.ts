@@ -20,10 +20,12 @@ export class ProfilComponent implements OnInit {
   article : NewArticleInformation;
   profil: SessionInformation;
   isRegistered: Boolean;
+  themes: ThemeResponse[];
   constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private themesService: ThemesService, private sessionService: SessionService, private articleService : ArticlesService) {
     this.isRegistered = false;
     this.article = new NewArticleInformation( new Array<Number>(),"","");
     this.profil = new SessionInformation("","","");
+    this.themes = new Array<ThemeResponse>;
   }
   ngOnInit(): void {
     this.sessionService.checkCookie()
@@ -31,6 +33,10 @@ export class ProfilComponent implements OnInit {
       this.authService.getProfil().subscribe(data => {
         this.profil = data;
     });
+    this.themesService.getThemes().subscribe(data => {
+      this.themes = data;
+    });
+    this.themes.filter(x=>x.isSubscribe == true)
   }
 
   goBackToList() {
@@ -46,6 +52,18 @@ export class ProfilComponent implements OnInit {
         console.error('Erreur lors de la requête : ', error);
       }
     );
+  }
+  toggleAbonnement(id: number) {
+    const indice = this.themes.findIndex(objet => objet.id === id);
+      this.themesService.subscribe(id).subscribe(
+        (data) => {
+          this.themes[indice].isSubscribe = !this.themes[indice].isSubscribe
+          this.themes.filter(x=>x.isSubscribe == true)
+        },
+        (error) => {
+          console.error('Erreur lors de la requête : ', error);
+        }
+      );
   }
 
   disconnect(){

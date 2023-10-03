@@ -14,25 +14,21 @@
         
       </div>
       <div *ngIf="isRegistered" class="header-right">
-        <a routerLink="/articles"><h1>Articles</h1></a>
-        <a routerLink="/themes"><h1>Thèmes</h1></a>
-        <a routerLink="/profil">
+        <a class="pcmenu" [ngStyle]="getTitleStyle('articles')" routerLink="/articles"><h1 class="articles">Articles</h1></a>
+        <a class="pcmenu" [ngStyle]="getTitleStyle('themes')" routerLink="/themes"><h1>Thèmes</h1></a>
+        <a class="pcmenu" routerLink="/profil">
             <img class="header-logo-compte" src="/assets/la-personne.png" alt="logo" />
         </a>
-        <!-- 
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/page-icon1">
-            <mat-icon>icon1_name</mat-icon>
-            <span>Titre 1</span>
-        </button>
-        <button mat-menu-item routerLink="/page-icon2">
-            <mat-icon>icon2_name</mat-icon>
-            <span>Titre 2</span>
-        </button>
-        </mat-menu>
-     -->
+        <div class="menubuger">
+        <button (click)="openMenu()">☰</button>
+            <mat-dialog-content *ngIf="menuOpen" class="menu-dialog">
+            <a routerLink="/articles">Articles</a>
+            <a routerLink="/themes">Thèmes</a>
+            <a class="header-logo-compte-a"routerLink="/profil">
+                <img class="header-logo-compte" src="/assets/la-personne.png" alt="logo" />
+            </a>
+            <div class="close-button" (click)="closeMenu()">X</div>
+            </mat-dialog-content>
+        </div>
       </div>
 </header>

@@ -1,13 +1,16 @@
 .container {
-    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
   }
   
+
   .create-button {
-    float: right;
-    background-color: blue;
+    border-radius: 10px;
+    float: left;
+    background-color: #7763c5;
     color: white;
+    font-weight: bold;
+    font-size: larger;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -15,11 +18,37 @@
   }
   
   .article-card {
-    border: 1px solid #ccc;
-    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
     margin-bottom: 20px;
+    width: 45%; /* Deux éléments par ligne */
+    margin-bottom: 20px;
+    padding: 10px;
   }
   
   .article-list {
     clear: both;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .auteurdate{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media all and (max-width: 850px) {
+    .article-card {
+      width: 95%;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .create-button{
+      max-width: 50vw;
+    }
   }

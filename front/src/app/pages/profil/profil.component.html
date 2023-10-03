@@ -1,22 +1,43 @@
 <app-header [isRegistered]="isRegistered"></app-header>
 
-<div class="article-header">
-    <button (click)="goBackToList()" class="back-button">←</button>
-    <h1>Profil utilisateur</h1>
-  </div>
-  <form>
+<div class="profil-main">
+    <h1 class="title-profil">Profil utilisateur</h1>
+  
+  <form class="profil-form">
     <div>
-      <label for="title">Username :</label>
       <input type="text" id="titre" name="titre" [(ngModel)]="profil.username"  [placeholder]="profil.username" />
     </div>
   
     <div>
-      <label for="content">Email :</label>
       <input id="contenu" name="contenu" [(ngModel)]="profil.email" [placeholder]="profil.email"/>
     </div>
   
-    <button (click)="submitForm()">Sauvegarder</button>
+    <button class="save-button" (click)="submitForm()">Sauvegarder</button>
   </form>
-  <button (click)="disconnect()">Se déconnecter</button>
+  <button class="logout-button"  (click)="disconnect()">Se déconnecter</button>
+</div>
+  <div class="separation">
+  </div>
+  <h1 class="title-subscribe">Abonnements</h1>
 
-  
+  <div class="container">
+    <div class="theme-list" >
+        <div class="theme-list" >
+            
+          <ng-container *ngIf="themes.length === 0; else themeslist">
+            <p>Aucun theme n'a été trouvé.</p>
+          </ng-container>
+      
+          <ng-template #themeslist>
+            <div class="article-card" *ngFor="let theme of themes">
+              <h2>{{ theme.title }}</h2>
+              <p>{{ theme.description | slice:0:100 }}...</p>
+              <button class="subscribebutton" (click)="toggleAbonnement(theme.id)">
+                {{ theme.isSubscribe ? 'Se désabonner' : 'S\'abonner' }}
+              </button>
+              
+            </div>
+          </ng-template>
+      
+        </div>
+  </div>

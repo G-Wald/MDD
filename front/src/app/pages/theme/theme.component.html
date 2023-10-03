@@ -12,7 +12,7 @@
             <div class="article-card" *ngFor="let theme of themes">
               <h2>{{ theme.title }}</h2>
               <p>{{ theme.description | slice:0:100 }}...</p>
-              <button (click)="toggleAbonnement(theme.id)">
+              <button class="subscribebutton" (click)="toggleAbonnement(theme.id)">
                 {{ theme.isSubscribe ? 'Se désabonner' : 'S\'abonner' }}
               </button>
               

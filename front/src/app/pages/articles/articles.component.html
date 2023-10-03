@@ -1,10 +1,8 @@
 <app-header [isRegistered]="isRegistered"></app-header>
 
 <div class="container">
-    <button class="create-button" (click)="createNewArticle()" >Créer un nouvel article</button>
+    <button class="create-button" (click)="createNewArticle()" >Créer un article</button>
     <div class="article-list" >
-        <div class="article-list" >
-            
           <ng-container *ngIf="articles.length === 0; else articlesList">
             <p>Aucun article n'a été trouvé.</p>
           </ng-container>
@@ -12,12 +10,12 @@
           <ng-template #articlesList>
             <div class="article-card" *ngFor="let article of articles" (click)="goToSelectedArticle(article.id)">
               <h2>{{ article.title }}</h2>
-              <p>Auteur : {{ article.authorUsername }}</p>
-              <p>Date : {{ article.createdAt | date:'medium' }}</p>
-              <p>{{ article.content | slice:0:100 }}...</p>
+              <div class="auteurdate">
+                <p>Auteur : {{ article.authorUsername }}</p>
+                <p>Date : {{ article.createdAt | date:'mediumDate' }}</p>
+              </div>
+              <p>{{ article.content | slice:0:300 }}...</p>
             </div>
           </ng-template>
-      
-        </div>
   </div>
   

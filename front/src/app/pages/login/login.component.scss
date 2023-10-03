@@ -1,14 +1,15 @@
-.container {
+
+   
+  .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 70vh;
-    max-width: 400px;
     margin: auto;
     padding: 16px;
   }
-  
+    
   .form-group {
     margin-bottom: 1rem;
   }
@@ -16,47 +17,107 @@
   button {
     padding: 0.5rem 1rem;
   }
-
+  
   .title {
     text-align: center;
     margin-bottom: 16px;
   }
- 
-    /* Mise en forme des titres des champs */
+  
   .form-group label {
     display: block;
     margin-bottom: 2px;
+    font-size: large;
   }
   
-  /* Mise en forme des champs d'entrée */
   .form-group input {
-    width: 100%;
+    width: 20vw;
+    height: 3vh;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #000000;
     border-radius: 5px;
   }
   
-  /* Mise en forme du bouton "S'inscrire" */
+  @media all and (max-width: 700px) {
+    .form-group input {
+      width: 85vw;
+    height: 5vh;
+    }
+  
+    .buttons {
+      display: flex;
+      flex-direction: column; 
+    }
+  
+    app-header{
+      display: none;
+    }
+    .imgmdd{
+        max-width: 70vw;
+      }
+      .back-button {
+        margin-right: 1px;
+        position: absolute;
+        top: 10px; 
+        left: 10px;
+        background: none;
+        border: none;
+        font-weight: bold;
+        font-size: 50px;
+        color: black;
+      }
+      .container{
+        margin-top: 105px;
+      }
+  }
+  
+  @media all and (min-width: 701px){
+    .imgmdd{
+      display: none;
+    }
+  
+    .back-button {
+      margin-right: auto;
+      margin-top: 30px;
+      margin-left: 30px;
+      background: none;
+      border: none;
+      font-weight: bold;
+      font-size: 50px;
+      color: black;
+    
+      &:hover {
+        color: gray; 
+      }
+    }
+  }
+  
   form.login-form button {
     background-color: #7763c5;
     color: white;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
+    font-weight: bold;
+    font-size: larger;
     cursor: pointer;
+    max-width: 50%;
+    margin: auto;
   }
   
-  /* Mise en forme du message d'erreur */
+  form.login-form{
+    display: flex;
+    flex-direction: column;
+  }
+  
   .error {
     display: block;
     color: red;
     margin-top: 5px;
   }
   
-  /* Espace le titre "Inscription" */
   .container h2 {
+    font-size: xx-large;
     margin-bottom: 55px;
   }
-  
   
