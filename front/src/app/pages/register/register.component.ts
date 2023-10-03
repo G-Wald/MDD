@@ -73,7 +73,9 @@ export class RegisterComponent {
     }
     );
   }
-
+  goBackToList() {
+    this.router.navigate(['/']);
+  }
   
 
 }

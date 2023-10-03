@@ -3,9 +3,7 @@ package com.openclassrooms.mddapi.controllers;
 import com.openclassrooms.mddapi.auth.request.LoginRequest;
 import com.openclassrooms.mddapi.auth.request.RegisterRequest;
 import com.openclassrooms.mddapi.auth.request.UsernameRequest;
-import com.openclassrooms.mddapi.auth.response.LoginResponse;
-import com.openclassrooms.mddapi.auth.response.RegisterResponse;
-import com.openclassrooms.mddapi.auth.response.TokenResponse;
+import com.openclassrooms.mddapi.auth.response.*;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.services.UserService;
 import org.slf4j.Logger;
@@ -51,15 +49,35 @@ public class UserController {
     }
 
     @PostMapping("/saveprofil")
-    public ResponseEntity<LoginResponse> saveUsername(@RequestBody UsernameRequest usernameRequest) {
+    public ResponseEntity<SaveProfilResponse> saveUsername(@RequestBody UsernameRequest usernameRequest) {
 
         User user = this.getUserFromToken();
 
         if (user == null) {
-            return ResponseEntity.status(404).body(new LoginResponse( "","","Utilisateur non trouvé"));
+            return ResponseEntity.status(404).body(new SaveProfilResponse( "","","","Utilisateur non trouvé"));
         }
 
-        return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), ""));
+        if (!user.getEmail().equals(usernameRequest.getEmail()) && userService.existsByEmail(usernameRequest.getEmail())) {
+            logger.info("error");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new SaveProfilResponse("","","","Error: Email is already taken!"));
+        }
+
+        if (!user.getUsername().equals(usernameRequest.getUsername()) && userService.existsByUsername(usernameRequest.getUsername())) {
+            logger.info("error");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new SaveProfilResponse("","","","Error: Username is already taken!"));
+        }
+
+        user.setUsername(usernameRequest.getUsername());
+        user.setEmail(usernameRequest.getEmail());
+        userService.save(user);
+
+        TokenResponse tokenResponse = userService.authenticate(new LoginRequest( user.getUsername(),user.getPassword()));
+
+        return ResponseEntity.ok(new SaveProfilResponse(user.getUsername(), user.getEmail(),tokenResponse.getToken(), ""));
     }
 
     @PostMapping("/login")
@@ -131,6 +149,11 @@ public class UserController {
         }
 
         return Pattern.compile("[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]").matcher(password).find();
+    }
+
+    @GetMapping("/istokenok")
+    public ResponseEntity<IsTokenOkResponse> isTokenOk() {
+        return ResponseEntity.ok(new IsTokenOkResponse(true));
     }
 
 }

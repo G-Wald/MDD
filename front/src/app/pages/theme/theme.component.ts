@@ -19,7 +19,7 @@ export class ThemeComponent implements OnInit {
     this.themes = new Array<ThemeResponse>;
   }
   ngOnInit(): void {
-    //Appeler un service pour vérifier si l'utilisateur est log
+    this.sessionService.checkCookie();
     this.isRegistered = true;
     this.themesService.getThemes().subscribe(data => {
       this.themes = data;
@@ -27,18 +27,8 @@ export class ThemeComponent implements OnInit {
 
   }
 
-  toggleAbonnement(id: number, isSubscribe:boolean) {
+  toggleAbonnement(id: number) {
     const indice = this.themes.findIndex(objet => objet.id === id);
-    if(isSubscribe == true){
-      this.themesService.unsubscribe(id).subscribe(
-        (data) => {
-          this.themes[indice].isSubscribe = !this.themes[indice].isSubscribe
-        },
-        (error) => {
-          console.error('Erreur lors de la requête : ', error);
-        }
-      );
-    }else{
       this.themesService.subscribe(id).subscribe(
         (data) => {
           this.themes[indice].isSubscribe = !this.themes[indice].isSubscribe
@@ -47,7 +37,6 @@ export class ThemeComponent implements OnInit {
           console.error('Erreur lors de la requête : ', error);
         }
       );
-    }
   }
 
 }

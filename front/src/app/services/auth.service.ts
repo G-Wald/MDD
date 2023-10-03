@@ -9,6 +9,7 @@ import { ProfilRequest } from '../interfaces/profilRequest.interface';
 import { Injectable } from '@angular/core';
 import { SessionService } from './session.service';
 import { LoginResponse } from '../interfaces/loginResponse.interface';
+import { SaveProfilResponse } from '../interfaces/SaveProfilResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +35,9 @@ export class AuthService {
     return this.httpClient.get<SessionInformation>(`${this.pathService}/profil`, {headers});
   }
 
-  public saveProfil(profilRequest: ProfilRequest): Observable<SessionInformation> {
+  public saveProfil(profilRequest: ProfilRequest): Observable<SaveProfilResponse> {
     const headers = this.sessionService.getHeadersWithAuthorization();
-    return this.httpClient.post<SessionInformation>(`${this.pathService}/savelogin`, profilRequest, {headers});
+    return this.httpClient.post<SaveProfilResponse>(`${this.pathService}/saveprofil`, profilRequest, {headers});
   }
 
 }

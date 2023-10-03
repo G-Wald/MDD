@@ -19,7 +19,7 @@ export class ArticlesComponent implements OnInit {
     this.articles = new Array<ArticleSmallInformation>;
   }
   ngOnInit(): void {
-    //Appeler un service pour vérifier si l'utilisateur est log
+    this.sessionService.checkCookie();
     this.isRegistered = true;
     this.articleService.getArticles().subscribe(data => {
       this.articles = data;

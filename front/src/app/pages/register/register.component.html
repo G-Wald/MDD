@@ -1,6 +1,8 @@
 
 <app-header></app-header>
 <div class="container">
+  <button (click)="goBackToList()" class="back-button">←</button>
+  <img class="imgmdd" src="/assets/logo_p6.png" alt="logo" />
   <h2>Inscription</h2>
   <form class="register-form" [formGroup]="form" (ngSubmit)="submitForm()">
     <div class="form-group">

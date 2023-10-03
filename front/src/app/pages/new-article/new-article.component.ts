@@ -22,7 +22,7 @@ export class NewArticleComponent implements OnInit {
     this.article = new NewArticleInformation( new Array<Number>(),"","");
   }
   ngOnInit(): void {
-    //Appeler un service pour vérifier si l'utilisateur est log
+    this.sessionService.checkCookie();
     this.isRegistered = true;
     this.themesService.getThemes().subscribe(data => {
       this.themes = data;

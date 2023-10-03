@@ -6,6 +6,7 @@ import { SessionService } from 'src/app/services/session.service';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
 import { LoginResponse } from '../../interfaces/loginResponse.interface';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,8 @@ export class LoginComponent {
   constructor(private authService: AuthService,
               private fb: FormBuilder,
               private router: Router,
-              private sessionService: SessionService) {
+              private sessionService: SessionService,
+              private cookie: CookieService) {
   }
 
   public submitForm(): void {
@@ -55,5 +57,7 @@ export class LoginComponent {
       } 
     });
   }
-
+  goBackToList() {
+    this.router.navigate(['/']);
+  }
 }

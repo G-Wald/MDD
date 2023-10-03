@@ -1,6 +1,7 @@
 
 <app-header></app-header>
 <div class="container">
+  <button (click)="goBackToList()" class="back-button">←</button>
     <h2>Connexion</h2>
     <form class="login-form"  [formGroup]="form" (ngSubmit)="submitForm()">
       <div class="form-group">

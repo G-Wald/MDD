@@ -8,6 +8,8 @@ import { ArticlesService } from 'src/app/services/articles.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { ProfilRequest } from 'src/app/interfaces/profilRequest.interface';
+import { SaveProfilResponse } from 'src/app/interfaces/SaveProfilResponse';
+import { LoginResponse } from 'src/app/interfaces/loginResponse.interface';
 
 @Component({
   selector: 'app-profil',
@@ -24,7 +26,7 @@ export class ProfilComponent implements OnInit {
     this.profil = new SessionInformation("","","");
   }
   ngOnInit(): void {
-    //Appeler un service pour vérifier si l'utilisateur est log
+    this.sessionService.checkCookie()
     this.isRegistered = true;
       this.authService.getProfil().subscribe(data => {
         this.profil = data;
@@ -36,7 +38,14 @@ export class ProfilComponent implements OnInit {
   }
 
   submitForm(){
-    this.authService.saveProfil(new ProfilRequest( this.profil.username, this.profil.email))
+    this.authService.saveProfil(new ProfilRequest( this.profil.username, this.profil.email)).subscribe(
+      (data : SaveProfilResponse ) => {
+        this.sessionService.logIn(new LoginResponse(data.token) );
+      },
+      (error) => {
+        console.error('Erreur lors de la requête : ', error);
+      }
+    );
   }
 
   disconnect(){

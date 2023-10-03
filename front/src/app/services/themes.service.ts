@@ -26,7 +26,7 @@ import { SessionService } from './session.service';
         const headers = this.sessionService.getHeadersWithAuthorization();
         console.log(headers)
         console.log(`${this.pathService}/subscribe/${id}`)
-        return this.httpClient.post<any>(`${this.pathService}/subscribe/${id}`, {headers});
+        return this.httpClient.put<any>(`${this.pathService}/subscribe/${id}`,"" ,{headers});
     }
 //changer en put
     public unsubscribe(id : number): Observable<void> {

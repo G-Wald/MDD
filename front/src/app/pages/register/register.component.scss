@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center;
   height: 70vh;
-  max-width: 400px;
   margin: auto;
   padding: 16px;
 }
@@ -28,15 +27,66 @@ button {
 .form-group label {
   display: block;
   margin-bottom: 2px;
+  font-size: large;
 }
 
 /* Mise en forme des champs d'entrée */
 .form-group input {
-  width: 100%;
+  width: 20vw;
+  height: 3vh;
   padding: 8px;
   margin-bottom: 10px;
   border: 1px solid #000000;
   border-radius: 5px;
+}
+
+@media all and (max-width: 700px) {
+  .form-group input {
+    width: 85vw;
+  height: 5vh;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column; 
+  }
+
+  app-header{
+    display: none;
+  }
+  .imgmdd{
+      max-width: 70vw;
+    }
+    .back-button {
+      margin-right: 1px;
+      position: absolute;
+      top: 10px; 
+      left: 10px;
+      background: none;
+      border: none;
+      font-weight: bold;
+      font-size: 50px;
+      color: black;
+    }
+}
+
+@media all and (min-width: 701px){
+  .imgmdd{
+    display: none;
+  }
+
+  .back-button {
+    margin-right: auto;
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 50px;
+    color: black;
+  
+    &:hover {
+      color: gray; // Couleur au survol
+    }
+  }
 }
 
 /* Mise en forme du bouton "S'inscrire" */
@@ -46,7 +96,16 @@ form.register-form button {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
+  font-weight: bold;
+  font-size: larger;
   cursor: pointer;
+  max-width: 50%;
+  margin: auto;
+}
+
+form.register-form{
+  display: flex;
+  flex-direction: column;
 }
 
 /* Mise en forme du message d'erreur */
@@ -58,6 +117,9 @@ form.register-form button {
 
 /* Espace le titre "Inscription" */
 .container h2 {
+  font-size: xx-large;
   margin-bottom: 55px;
 }
+
+
 

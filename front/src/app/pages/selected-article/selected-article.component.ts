@@ -34,6 +34,7 @@ export class SelectedArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sessionService.checkCookie();
     this.isRegistered = true;
     this.route.params.subscribe(params => {
       const articleId = +params['id'];
