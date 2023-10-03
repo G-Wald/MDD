@@ -1,25 +1,79 @@
 # P6-Full-Stack-reseau-dev
 
-## Front
+## 1. Getting started
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+Make sure you have java on your computer
 
-Don't forget to install your node_modules before starting (`npm install`).
+### 1.1. Get source code of Api
 
-### Development server
+```
+$ git clone https://github.com/G-Wald/MDD.git
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### 1.2. Get the database
 
-### Build
+Download xampp with this url
+```
+https://www.apachefriends.org/fr/index.html
+```
+Make sure to download Apache and SQL.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Launch Xampp, Apache and MySQl.
 
-### Where to start
+On the control panel click on Admin MySQL.
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+It should redirect you to this address.
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+http://localhost/phpmyadmin/
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get ride of it.
+Click on new Database use utf8mb4_general_ci type
 
-Good luck!
+Once created use the SQL file to increment the database.
+
+You can find it in the folder ressources
+
+
+### 1.3. Lancer l'application
+
+Before launch please enter your database information on application.properties
+
+```
+spring.datasource.url= "your db url"
+spring.datasource.username="your db username"
+spring.datasource.password="your db password"
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+```
+
+Use an IDE to open the project and build it and run it
+
+If you don't have an IDE, you can dowload Intellij.
+
+Open the project with Intellij.
+
+Go to SpringBootSecurityJwtApplication.
+
+Build the application with the green hammer on the top of your window.
+
+Run it with the button play. 
+
+(If you can run and build check if you have a SDK install)
+
+
+### 1.4. Front End
+
+Go the front folder and open a command prompt.
+
+use th following command :
+
+```
+npm install
+```
+to install the dependencies
+
+
+```
+ng serve
+```
+to run the front app
+
+Good luck !
